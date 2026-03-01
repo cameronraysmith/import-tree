@@ -61,20 +61,20 @@ By default, paths having `/_` are ignored. See API documentation for advanced us
 
 ### Dendritic Nix (non-flakes, stable Nix)
 
-This example uses [with-inputs](https://github.com/vic/with-inputs) to provide flake-file inputs from [npins](https://github.com/andir/npins) sources.
+This [Den example](https://github.com/vic/den/tree/main/templates/noflake) uses [with-inputs](https://github.com/vic/with-inputs) to provide flake-like inputs from [npins](https://github.com/andir/npins) sources.
 
 ```nix
 # default.nix
 let
   sources = import ./npins;
-  with-inputs = import sources.with-inputs;
+  with-inputs = import sources.with-inputs sources { };
   outputs = inputs:
    (inputs.nixpkgs.lib.evalModules {
       specialArgs.inputs = inputs;
       modules = [ (inputs.import-tree ./modules)  ];
    }).config;
 in
-with-inputs sources {} outputs
+with-inputs outputs
 ```
 
 ## Documentation
